@@ -49,6 +49,41 @@
       $this->assertEquals([], $result);
     }
 
+    function test_getId()
+    {
+      //Arrange
+      $name1 = "Min";
+      $test_person1 = new Person($name1);
+      $test_person1->save();
+
+      //Act
+      $all_people = Person::getAll();
+      $expected = $test_person1->getId();
+      $result = $all_people[0]->getId();
+
+      //Assert
+      $this->assertEquals($expected, $result);
+    }
+
+    function test_find()
+    {
+      //Arrange
+      $name1 = "Min";
+      $test_person1 = new Person($name1);
+      $test_person1->save();
+
+      $name2 = "Minh";
+      $test_person2 = new Person($name2);
+      $test_person2->save();
+
+      //Act
+      $id = $test_person1->getId();
+      $result = Person::find($id);
+
+      //Assert
+      $this->assertEquals($test_person1, $result);
+    }
+
     protected function tearDown()
     {
       Person::deleteAll();
