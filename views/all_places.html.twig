@@ -10,7 +10,7 @@
     <p>Here are all your people:</p>
     <ul>
       {% for place in places %}
-      <li>{{ place.getName }}</li>
+      <li><a href="/place_detail/{{place.getId}}">{{ place.getName }}</a></li>
       {% endfor%}
     </ul>
     {% endif %}

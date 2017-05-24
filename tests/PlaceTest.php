@@ -65,6 +65,41 @@
       $this->assertEquals($expected, $result);
     }
 
+    function test_update()
+    {
+      //Arrange
+      $name1 = "Paris";
+      $test_place1 = new Place($name1);
+      $test_place1->save();
+      $new_name = "London";
+
+      //Act
+      $test_place1->update($new_name);
+      echo "this is new place name \n" . $test_place1->getName();
+      $expected = $test_place1->getName();
+      $result = $new_name;
+
+      //Assert
+      $this->assertEquals($expected, $result);
+    }
+
+    function test_delete()
+    {
+      //Arrange
+      $name1 = "Paris";
+      $test_place1 = new Place($name1);
+      $test_place1->save();
+      $place_id = $test_place1->getId();
+
+      $name1 = "Min";
+      $test_person1 = new Person($name1, $place_id);
+      $test_person1->save();
+
+      //Act
+      $test_place1->delete();
+      $this->assertEquals([], Person::getAll());
+    }
+
     function test_find()
     {
       //Arrange

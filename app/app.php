@@ -3,6 +3,8 @@
   require_once __DIR__."/../vendor/autoload.php";
   require_once __DIR__."/../src/Person.php";
   require_once __DIR__."/../src/Place.php";
+  use Symfony\Component\HttpFoundation\Request;
+  Request::enableHttpMethodParameterOverride();
 
   $app = new Silex\Application();
 
@@ -17,6 +19,8 @@
     'twig.path' => __DIR__.'/../views'
   ));
 
+
+
   //get routes
   $app->get("/", function() use ($app) {
     return $app['twig']->render('index.html.twig');
@@ -28,7 +32,7 @@
   });
 
   $app->post("/create_person", function() use ($app) {
-    $new_person = new Person($_POST['person_name']);
+    $new_person = new Person($_POST['person_name'],$_POST['place_id']);
     $new_person->save();
     return $app['twig']->render('create_person.html.twig', array('newPerson' => $new_person));
   });
@@ -54,6 +58,28 @@
     return $app['twig']->render('delete_places.html.twig');
   });
 
+  $app->get("/place_detail/{id}", function($id) use ($app) {
+    $this_place = Place::find($id);
+    return $app['twig']->render('place_detail.html.twig', array('place' => $this_place, 'people'=>$this_place->getPeople()));
+  });
+
+  $app->get("/place_edit/{id}", function($id) use ($app) {
+    $this_place = Place::find($id);
+    return $app['twig']->render('place_edit.html.twig', array('place' => $this_place));
+  });
+
+  $app->patch("/place_edit/{id}", function($id) use ($app) {
+    $this_place = Place::find($id);
+    $new_name = $_POST['name'];
+    $this_place->update($new_name);
+    return $app['twig']->render('place_detail.html.twig', array('place' => $this_place, 'people'=>$this_place->getPeople()));
+  });
+
+  $app->delete("/place_edit/{id}", function($id) use ($app) {
+    $this_place = Place::find($id);
+    $this_place->delete();
+  return $app['twig']->render('all_places.html.twig', array('places' => Place::getAll()));
+  });
 
   return $app;
  ?>

@@ -1,0 +1,26 @@
+<h1>Detail about {{place.getName}}</h1>
+
+
+  {% if people is not empty%}
+  <h4>People:</h4>
+  <ul>
+    {% for person in people%}
+    <li>{{person.getName}}</li>
+    {% endfor%}
+  </ul>
+  {% else %}
+
+  <h4>Add a task</h4>
+
+    <form action='/create_person' method='post'>
+        <input id="place_id" name="place_id" type="hidden" value="{{ place.getId }}">
+        <label for='description'>Name</label>
+        <input id='person_name' name='person_name' type='text'>
+
+        <button type='submit'>Add task</button>
+    </form>
+
+  <h5>There is no people yet</h5>
+  {% endif%}
+
+  <p><a href="/place_edit/{{ place.getId }}">Edit this place</a></p>

@@ -56,6 +56,32 @@
         return $people;
       }
 
+      function update($new_name)
+      {
+        //Make sure to keep track of the column name
+        $executed = $GLOBALS['DB'] -> exec("UPDATE places SET placeName ='{$new_name}' WHERE id = {$this->getId()};");
+        if ($executed) {
+          $this->setName($new_name);
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      function delete()
+      {
+        $executed = $GLOBALS['DB'] -> exec("DELETE FROM places WHERE id = {$this->getId()};");
+        if(!$executed){
+          return false;
+        }
+        $executed = $GLOBALS['DB'] -> exec("DELETE FROM people WHERE place_id = {$this->getId()};");
+        if(!$executed){
+          return false;
+        } else {
+          return true;
+        }
+      }
+
       static function getAll()
       {
         $dtb_places = $GLOBALS['DB']->query("SELECT * FROM places;");
