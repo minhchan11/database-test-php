@@ -41,6 +41,21 @@
           }
       }
 
+      function getPeople()
+      {
+        //query will return an object
+        $people = array();
+        $found_people = $GLOBALS['DB'] -> query("SELECT * FROM people WHERE place_id = {$this->getId()};");
+        foreach ($found_people as $person) {
+          $new_name = $person['name'];
+          $new_place_id = $person['place_id'];
+          $new_id = $person['id'];
+          $new_person = new Person($new_name,$new_place_id,$new_id);
+          array_push($people, $new_person);
+        }
+        return $people;
+      }
+
       static function getAll()
       {
         $dtb_places = $GLOBALS['DB']->query("SELECT * FROM places;");

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>People Places Things</title>
+  </head>
+  <body>
+    <h1>People</h1>
+    {% if people is not empty%}
+    <p>Here are all your people:</p>
+    <ul>
+      {% for person in people %}
+      <li>{{ person.getName }}</li>
+      {% endfor%}
+    </ul>
+    {% endif %}
+
+    <form action="/create_person" method="post">
+      <label for="name">New name:</label>
+      <input type="text" name="person_name" id="person_name">
+
+      <button type="submit" name="button">Add person</button>
+    </form>
+
+    <form action="/delete_people" method="post">
+      <button type="submit" name="button">Clear all people</button>
+    </form>
+
+    <p><a href='/'>Home</a></p>
+  </body>
+</html>

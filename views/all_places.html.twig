@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>People Places Things</title>
+  </head>
+  <body>
+    <h1>Places</h1>
+    {% if places is not empty%}
+    <p>Here are all your people:</p>
+    <ul>
+      {% for place in places %}
+      <li>{{ place.getName }}</li>
+      {% endfor%}
+    </ul>
+    {% endif %}
+
+    <form action="/create_place" method="post">
+      <label for="name">New name:</label>
+      <input type="text" name="place_name" >
+
+      <button type="submit" name="button">Add place</button>
+    </form>
+
+    <form action="/delete_places" method="post">
+      <button type="submit" name="button">Clear all places</button>
+    </form>
+
+    <p><a href='/'>Home</a></p>
+  </body>
+</html>

@@ -6,6 +6,7 @@
  */
 
   require_once "src/Person.php";
+  require_once "src/Place.php";
 
   $server = 'mysql:host=localhost:8889;dbname=travel_test';
   $username = 'root';
@@ -19,12 +20,17 @@
     function test_getAll()
     {
       //Arrange
+      $place_name1= "Paris";
+      $test_place1 = new Place($place_name1);
+      $test_place1->save();
+
       $name1 = "Min";
-      $test_person1 = new Person($name1);
+      $place_id = $test_place1->getId();
+      $test_person1 = new Person($name1, $place_id);
       $test_person1->save();
 
       $name2 = "Minh";
-      $test_person2 = new Person($name2);
+      $test_person2 = new Person($name2, $place_id);
       $test_person2->save();
       //Act
       $result = Person::getAll();
@@ -35,12 +41,17 @@
     function test_deleteAll()
     {
       //Arrange
+      $place_name1= "Paris";
+      $test_place1 = new Place($place_name1);
+      $test_place1->save();
+      $place_id = $test_place1->getId();
+
       $name1 = "Min";
-      $test_person1 = new Person($name1);
+      $test_person1 = new Person($name1, $place_id);
       $test_person1->save();
 
       $name2 = "Minh";
-      $test_person2 = new Person($name2);
+      $test_person2 = new Person($name2, $place_id);
       $test_person2->save();
       Person::deleteAll();
       //Act
@@ -52,8 +63,13 @@
     function test_getId()
     {
       //Arrange
+      $place_name1= "Paris";
+      $test_place1 = new Place($place_name1);
+      $test_place1->save();
+
       $name1 = "Min";
-      $test_person1 = new Person($name1);
+      $place_id = $test_place1->getId();
+      $test_person1 = new Person($name1, $place_id);
       $test_person1->save();
 
       //Act
@@ -68,12 +84,17 @@
     function test_find()
     {
       //Arrange
+      $place_name1= "Paris";
+      $test_place1 = new Place($place_name1);
+      $test_place1->save();
+      $place_id = $test_place1->getId();
+
       $name1 = "Min";
-      $test_person1 = new Person($name1);
+      $test_person1 = new Person($name1, $place_id);
       $test_person1->save();
 
       $name2 = "Minh";
-      $test_person2 = new Person($name2);
+      $test_person2 = new Person($name2, $place_id);
       $test_person2->save();
 
       //Act
@@ -87,6 +108,7 @@
     protected function tearDown()
     {
       Person::deleteAll();
+      Place::deleteAll();
     }
   }
  ?>

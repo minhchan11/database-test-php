@@ -84,9 +84,34 @@
       $this->assertEquals($test_place1, $result);
     }
 
+    function test_getPeople()
+    {
+      //Arrange
+      $name1 = "Min";
+      $test_place1 = new Place($name1);
+      $test_place1->save();
+      $place_id = $test_place1->getId();
+
+      $name1 = "Min";
+      $test_person1 = new Person($name1, $place_id);
+      $test_person1->save();
+
+      $name2 = "Minh";
+      $test_person2 = new Person($name2, $place_id);
+      $test_person2->save();
+
+      //Act
+      $result = $test_place1->getPeople();
+      $expected = array($test_person1, $test_person2);
+
+      //Assert
+      $this->assertEquals($result,$expected);
+    }
+
     protected function tearDown()
     {
       Place::deleteAll();
+      Person::deleteAll();
     }
   }
  ?>
