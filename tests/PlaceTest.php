@@ -6,6 +6,8 @@
  */
 
   require_once "src/Place.php";
+  require_once "src/Person.php";
+  require_once "src/Thing.php";
 
   $server = 'mysql:host=localhost:8889;dbname=travel_test';
   $username = 'root';
@@ -19,11 +21,11 @@
     function test_getAll()
     {
       //Arrange
-      $name1 = "Min";
+      $name1 = "Paris";
       $test_place1 = new Place($name1);
       $test_place1->save();
 
-      $name2 = "Minh";
+      $name2 = "London";
       $test_place2 = new Place($name2);
       $test_place2->save();
       //Act
@@ -35,11 +37,11 @@
     function test_deleteAll()
     {
       //Arrange
-      $name1 = "Min";
+      $name1 = "Paris";
       $test_place1 = new Place($name1);
       $test_place1->save();
 
-      $name2 = "Minh";
+      $name2 = "London";
       $test_place2 = new Place($name2);
       $test_place2->save();
       Place::deleteAll();
@@ -52,7 +54,7 @@
     function test_getId()
     {
       //Arrange
-      $name1 = "Min";
+      $name1 = "Paris";
       $test_place1 = new Place($name1);
       $test_place1->save();
 
@@ -75,7 +77,6 @@
 
       //Act
       $test_place1->update($new_name);
-      echo "this is new place name \n" . $test_place1->getName();
       $expected = $test_place1->getName();
       $result = $new_name;
 
@@ -91,7 +92,7 @@
       $test_place1->save();
       $place_id = $test_place1->getId();
 
-      $name1 = "Min";
+      $name1 = "Paris";
       $test_person1 = new Person($name1, $place_id);
       $test_person1->save();
 
@@ -103,11 +104,11 @@
     function test_find()
     {
       //Arrange
-      $name1 = "Min";
+      $name1 = "Paris";
       $test_place1 = new Place($name1);
       $test_place1->save();
 
-      $name2 = "Minh";
+      $name2 = "London";
       $test_place2 = new Place($name2);
       $test_place2->save();
 
@@ -122,16 +123,16 @@
     function test_getPeople()
     {
       //Arrange
-      $name1 = "Min";
+      $name1 = "Paris";
       $test_place1 = new Place($name1);
       $test_place1->save();
       $place_id = $test_place1->getId();
 
-      $name1 = "Min";
+      $name1 = "Paris";
       $test_person1 = new Person($name1, $place_id);
       $test_person1->save();
 
-      $name2 = "Minh";
+      $name2 = "London";
       $test_person2 = new Person($name2, $place_id);
       $test_person2->save();
 
@@ -143,10 +144,57 @@
       $this->assertEquals($result,$expected);
     }
 
+    function test_addThing()
+    {
+      //Arrange
+      $name1 = "Paris";
+      $test_place1 = new Place($name1);
+      $test_place1->save();
+
+      $thingName1 = "Sight-seeing";
+      $test_thing1 = new Thing($thingName1);
+      $test_thing1->save();
+
+      $test_place1->addThing($test_thing1);
+      //Act
+      $result = $test_place1->getThings();
+      $expected = array($test_thing1);
+
+      //Assert
+      $this->assertEquals($result, $expected);
+    }
+
+    function test_getThings()
+    {
+      //Arrange
+      $name1 = "Paris";
+      $test_place1 = new Place($name1);
+      $test_place1->save();
+
+      $thingName1 = "Sight-seeing";
+      $test_thing1 = new Thing($thingName1);
+      $test_thing1->save();
+
+      $thingName2 = "Photos";
+      $test_thing2 = new Thing($thingName2);
+      $test_thing2->save();
+
+      $test_place1->addThing($test_thing1);
+      $test_place1->addThing($test_thing2);
+
+      //Act
+      $result = $test_place1->getThings();
+      $expected = array($test_thing1, $test_thing2);
+
+      //Assert
+      $this->assertEquals($result, $expected);
+    }
+
     protected function tearDown()
     {
       Place::deleteAll();
       Person::deleteAll();
+      Thing::deleteAll();
     }
   }
  ?>

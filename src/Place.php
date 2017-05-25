@@ -82,6 +82,36 @@
         }
       }
 
+      function addThing($thing)
+      {
+        $executed = $GLOBALS['DB']->query("INSERT INTO places_things (place_id, thing_id) VALUES ({$this->getId()}, {$thing->getId()});");
+        if ($executed) {
+            return true;
+          } else {
+            return false;
+          }
+      }
+
+      function getThings()
+      {
+        $query = $GLOBALS['DB']->query("SELECT thing_id FROM places_things WHERE place_id ={$this->getId()};");
+        $thing_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $things = array();
+        foreach($thing_ids as $id){
+          $thing_id = $id['thing_id'];
+          $result = $GLOBALS['DB']->query("SELECT * FROM things WHERE id={$thing_id};");
+          $return_thing = $result->fetchAll(PDO::FETCH_ASSOC);
+
+          $name = $return_thing[0]['thingName'];
+          $id = $return_thing[0]['id'];
+          $new_thing = new Thing($name, $id);
+          array_push($things, $new_thing);
+        }
+
+        return $things;
+      }
+
       static function getAll()
       {
         $dtb_places = $GLOBALS['DB']->query("SELECT * FROM places;");
