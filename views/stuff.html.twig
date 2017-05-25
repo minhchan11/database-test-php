@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>Thing</title>
+</head>
+<body>
+    <h1>{{ thing.getDescription }}</h1>
+
+    {% if places is not empty %}
+        <p>Here are the places for this thing:</p>
+        <ul>
+            {% for place in places %}
+                <li>{{ place.getName }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h4>Add a place to this thing:</h4>
+
+    <form action='/add_places' method='post'>
+        <input id="thing_id" name="thing_id" type="hidden" value="{{ thing.getId }}">
+        <label for="place_id">Select a place</label>
+        <select id='place_id' name='place_id' type='text'>
+          {% for place in all_places %}
+            <option value="{{ place.getId }}"> {{ place.getName }} </option>
+          {% endfor %}
+        </select>
+        <button type='submit'>Add place</button>
+    </form>
+
+    <p><a href='/'>Home</a></p>
+</body>
+</html>

@@ -81,5 +81,12 @@
   return $app['twig']->render('all_places.html.twig', array('places' => Place::getAll()));
   });
 
+//   $app->post("/add_stuffs", function() use ($app) {
+//     $place = Category::find($_POST['place_id']);
+//     $stuff = Task::find($_POST['stuff_id']);
+//     $place->addTask($stuff);
+//     return $app['twig']->render('place.html.twig', array('place' => $place, 'categories' => Category::getAll(), 'stuffs' => $place->getTasks(), 'all_stuffs' => Task::getAll()));
+// });
+
   return $app;
  ?>

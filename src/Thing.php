@@ -50,7 +50,10 @@
       }
 
         function delete()
-        {
+        {  $executed = $GLOBALS['DB'] -> exec("DELETE FROM places_things WHERE thing_id = {$this->getId()};");
+          if(!$executed){
+            return false;
+          }
           $executed = $GLOBALS['DB'] -> exec("DELETE FROM things WHERE id = {$this->getId()}");
           if ($executed)
           {

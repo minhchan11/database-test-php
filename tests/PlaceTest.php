@@ -92,12 +92,17 @@
       $test_place1->save();
       $place_id = $test_place1->getId();
 
-      $name1 = "Paris";
-      $test_person1 = new Person($name1, $place_id);
+      $person_name1 = "Minh";
+      $test_person1 = new Person($person_name1, $place_id);
       $test_person1->save();
 
       //Act
       $test_place1->delete();
+      $random = Person::getAll();
+      foreach ($random as $person) {
+        echo $person->getName();
+      }
+      //Assert
       $this->assertEquals([], Person::getAll());
     }
 

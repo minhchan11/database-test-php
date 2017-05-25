@@ -63,6 +63,17 @@
         return $local_people;
       }
 
+      function delete()
+      {
+        $executed = $GLOBALS['DB'] -> exec("DELETE FROM people WHERE id = {$this->getId()};");
+        if(!$executed){
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+
       static function deleteAll()
       {
         $executed = $GLOBALS['DB']->query("DELETE FROM people;");

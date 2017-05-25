@@ -70,11 +70,7 @@
 
       function delete()
       {
-        $executed = $GLOBALS['DB'] -> exec("DELETE FROM places WHERE id = {$this->getId()};");
-        if(!$executed){
-          return false;
-        }
-        $executed = $GLOBALS['DB'] -> exec("DELETE FROM people WHERE place_id = {$this->getId()};");
+        $executed = $GLOBALS['DB'] -> exec("DELETE FROM places WHERE id = {$this->getId()};DELETE FROM places_things WHERE place_id = {$this->getId()};DELETE FROM places_stuffs WHERE place_id = {$this->getId()};DELETE FROM people WHERE place_id = {$this->getId()};");
         if(!$executed){
           return false;
         } else {
